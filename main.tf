@@ -130,12 +130,20 @@ resource "aws_instance" " "new-server" {
   instance_type = "t2.micro"
   key_name =""
   subnet_id = aws_subnet.app_subnet.id
-
-
+    
  network_interface {
     network_interface_id = aws_network_interface.app-nic.id
     device_index = 0
   }
+  
+  user_data = <<-EOF 
+              #!/bin/bash
+			  sudo yum install -y httpd php php-mysql php-gd php-xml mariadb-server mariadb php-mbstring wget
+			  sudo systemctl start mariadb
+			  sudo systemctl enable mariadb
+			  sudo systemctl enable httpd
+			  EOF
+			  
   provisioner "file" {
     source      = "/home/rohit/startup.sh"
     destination = "/tmp/startup.sh"
