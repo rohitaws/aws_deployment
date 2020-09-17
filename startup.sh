@@ -1,6 +1,5 @@
 #!/bin/bash
-sudo yum install -y httpd php php-mysql php-gd php-xml mariadb-server mariadb php-mbstring wget
-sudo systemctl start mariadb
+sudo systemctl restart mariadb
 sudo bash -c 'echo "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('admin');" | mysql -u root'
 sudo bash -c 'echo "UPDATE mysql.user SET authentication_string = PASSWORD('admin') WHERE User = 'root' AND Host = 'localhost';" |  mysql -u root -padmin'
 sudo bash -c 'mysql -u root -p"admin" -e "CREATE USER 'wiki'@'localhost' IDENTIFIED BY 'THISpasswordSHOULDbeCHANGED';"'
